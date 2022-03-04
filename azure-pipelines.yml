@@ -1,0 +1,50 @@
+# Starter pipeline
+- task: DownloadSecureFile@1
+  inputs:
+    secureFile: 'C:\Users\sirisha.dasika\.m2\settings.xml'
+- task: CmdLine@2
+  inputs:
+    script: |
+      cd _uat
+      git config --global user.name "TEST Build Service"
+      git config --global user.email "you@example.com"
+      git checkout devlop
+- task: Maven@3
+  inputs:
+    mavenPomFile: '$(System.DefaultWorkingDirectory)/_dev/helloworld/pom.xml'
+    goals: 'clean deploy'
+    options: '-DskipTests -P build'
+    publishJUnitResults: false
+    javaHomeOption: 'JDKVersion'
+    mavenVersionOption: 'Default'
+    mavenAuthenticateFeed: false
+    effectivePomSkip: false
+    sonarQubeRunAnalysis: false
+- task: Maven@3
+  inputs:
+    mavenPomFile: '''$(System.DefaultWorkingDirectory)/_dev/helloworld/pom.xml'
+    options: '-P cloudhub-deploy -DskipTests -DmuleDeploy -Dusername=$(username) -Dpassword=$(password) -Dcloudhub.application.name=$(cloudhub.application.name.uat) -Denvironment=$(environment) -Dmule.env=$(mule.env) -Danypoint.platform.client_id=$(anypoint.platform.client_id) -Danypoint.platform.client_secret=$(anypoint.platform.client_secret) -Danypoint.platform.config.analytics.agent.enabled=$(anypoint.platform.config.analytics.agent.enabled) -DworkerType=$(workerType) -Dworkers=$(workers) -DbusinessGroupId=$(businessGroupId) -Dregion=$(region) -Dapi.autodiscovery.id=$(api.autodiscovery.id) -Dmule.secureKey=$(mule.secureKey) -Dhttps.proxyHost="zproxy-ew.shell.com" -Dhttps.proxyPort=3128'
+    publishJUnitResults: false
+    javaHomeOption: 'JDKVersion'
+    mavenVersionOption: 'Default'
+    mavenAuthenticateFeed: false
+    effectivePomSkip: false
+    sonarQubeRunAnalysis: false
+# Start with a minimal pipeline that you can customize to build and deploy your code.
+# Add steps that build, run tests, deploy, and more:
+# https://aka.ms/yaml
+
+trigger:
+- main
+
+pool:
+  vmImage: ubuntu-latest
+
+steps:
+- script: echo Hello, world!
+  displayName: 'Run a one-line script'
+
+- script: |
+    echo Add other tasks to build, test, and deploy your project.
+    echo See https://aka.ms/yaml
+  displayName: 'Run a multi-line script'
