@@ -76,5 +76,54 @@
             </snapshots>
         </pluginRepository>
     </pluginRepositories>
-
+	<profiles>
+		<profile>
+			<id>cloudhub-deploy</id>
+			<properties>
+				<groupId>com.mycompany</groupId>
+			</properties>
+			<build>
+				<plugins>
+					<plugin>
+						<groupId>org.mule.tools.maven</groupId>
+						<artifactId>mule-maven-plugin</artifactId>
+						<version>${mule.maven.plugin.version}</version>
+						<extensions>true</extensions>
+						<configuration>
+							<cloudHubDeployment>
+								<uri>https://anypoint.mulesoft.com</uri>
+								<muleVersion>${app.runtime}</muleVersion>
+								<username>${username}</username>
+								<password>${password}</password>
+								<applicationName>${cloudhub.application.name}</applicationName>
+								<environment>${environment}</environment>
+								<workerType>${workerType}</workerType>
+								<businessGroupId>${businessGroupId}</businessGroupId>
+								<region>${region}</region>
+								<properties>
+									<mule.secureKey>${mule.secureKey}</mule.secureKey>
+									<mule.env>${mule.env}</mule.env>
+									<anypoint.platform.config.analytics.agent.enabled>${anypoint.platform.config.analytics.agent.enabled}</anypoint.platform.config.analytics.agent.enabled>
+									<anypoint.platform.client_id>${anypoint.platform.client_id}</anypoint.platform.client_id>
+									<anypoint.platform.client_secret>${anypoint.platform.client_secret}</anypoint.platform.client_secret>
+								</properties>
+							</cloudHubDeployment>
+							<executions>
+								<execution>
+									<id>deploy</id>
+									<goals>
+										<goal>deploy</goal>
+									</goals>
+									<configuration>
+										<classifier>mule-application</classifier>
+									</configuration>
+								</execution>
+							</executions>
+							<classifier>mule-application</classifier>
+						</configuration>
+					</plugin>
+				</plugins>
+			</build>
+		</profile>
+	</profiles>
 </project>
